@@ -68,6 +68,7 @@ Use emojis to make the post fun and easy to scan — a section emoji per section
 - If nothing qualifies: "✅ Nothing awaiting a decision."
 
 ## Conventions
+- Post the scan as a single new **top-level message** in the channel — never as a thread reply — so the TL;DR is visible at a glance. Discussion then happens in threads under each daily post.
 - Refer to people by full name in plain text. Do NOT @-mention anyone — let human reviewers tag people into the discussion as needed.
 - Keep all Linear IDs in plain text for the next run's dedupe.
 - Slack formatting: short bullets, *single-asterisk* bold, emojis as above, no markdown headings or tables.
