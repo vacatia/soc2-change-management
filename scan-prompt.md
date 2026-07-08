@@ -78,6 +78,6 @@ These have ALREADY shipped, so do NOT include a "Why it might be Major" writeup 
 ## Conventions
 - Post the scan as a single new **top-level message** in the channel — never as a thread reply — so the TL;DR is visible at a glance. Discussion then happens in threads under each daily post.
 - Refer to people by full name in plain text. Do NOT @-mention anyone — let human reviewers tag people into the discussion as needed.
-- Keep all Linear IDs in plain text for the next run's dedupe.
+- Render every Linear issue reference as a hyperlink, everywhere it appears (TL;DR and all sections): format as [VDC-782](https://linear.app/vacatia/issue/VDC-782), using the full issue URL from Linear when available. Keep the bare issue ID as the visible link label so the next run's dedupe can still match on the ID text.
 - Slack formatting: short bullets, *single-asterisk* bold, emojis as above, no markdown headings or tables.
 - You make NO Linear changes. Designation and major-change paperwork are done by the owning team's engineering manager, separately. Your job is to report and keep that work visible until it's done, and done right.
