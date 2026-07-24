@@ -7,7 +7,7 @@
 ## 1. Scope
 - **In-scope systems:** AWS, VDC (Vacatia.com), DVC, Snowflake.
 - **In-scope teams/areas:** DevOps, Data, Platform, Vacatia.com, DVC. (Vacatia.com is tracked as its own line; the Platform team builds it.)
-- **Out of scope:** Salesforce, Berkley, Resort Sites, Club Vacatia.
+- **Out of scope:** Salesforce, Berkley, Resort Sites. **Club Vacatia** is out of scope until it launches to the public; once launched, it is in scope and follows this process.
 - **DVC carve-out:** DVC is pre-production; dev/staging is out of scope. Only changes promoted to DVC production are in scope. A higher major-change rate is expected and acceptable for an early-stage product.
 - **Snowflake:** dbt code changes are in scope (they flow through pull requests). Non-PR Snowflake changes made directly in the UI (new users, sources) are out of scope.
 
@@ -50,21 +50,29 @@ Branch protection on production branches, managed in Terraform across in-scope r
 
 **Segregation of duties:** code review by someone other than the author is a hard requirement, no exception. QA testing by a separate person is best practice; self-testing is an acceptable documented exception for small teams, provided code review was done.
 
-## 6. The daily AI review
-A read-only Claude agent (Claude Tag) scans in-scope Linear work each weekday at 9:00am Mountain and posts to #soc2-change-review. It reports factual status (counts, per-team coverage, timing), tracks designated major changes, and surfaces candidates. It makes no Linear changes — it reports and creates accountability through visibility. Its prompt lives in `scan-prompt.md` and is fetched from this repo's `main` each morning, so a reviewed merge to `main` is how the review behavior changes. The post leads with a TL;DR, then has three parts: big-picture status, in-process majors with an 8-step health check, and candidates awaiting decision (aged so stalled ones surface).
+## 6. The AI review (two-tier scan)
+A read-only Claude agent (Claude Tag) scans in-scope Linear work and posts to #soc2-change-review. It reports factual status (counts, per-team coverage, timing), tracks designated major changes, and surfaces candidates. It makes no Linear changes — it reports and creates accountability through visibility. Its prompt lives in `scan-prompt.md` and is fetched from this repo's `main` on each run, so a reviewed merge to `main` is how the review behavior changes.
+
+The scan runs in two tiers:
+- **Light scan (Mon, Wed, Thu, Fri):** an exception-based tripwire. Most days it posts a one-line "nothing needs attention" heartbeat; it speaks up only for the few things that can't wait for the weekly pre-read — in-scope work that shipped without being triaged, an undecided candidate about to ship, a new high-confidence Major, or a break-glass event.
+- **Weekly pre-read (Tue):** the comprehensive digest, posted the day before the Wednesday review meeting. It is the meeting's pre-read and agenda: TL;DR and big-picture status up top, with candidates, 8-step health checks, emergencies, per-team coverage, and open process questions in the thread.
+
+To support the un-triaged tripwire, the scan also inspects recently-shipped (Done) in-scope items. This is not to reopen routine work — no label still means Minor by default — but to catch a change that shipped without being triaged when it plausibly warranted a Major review.
 
 ## 7. The decision loop
-The review group discusses each candidate in-channel; one of three outcomes:
+Classifications are decided at the **weekly SOC 2 Change Management Review** (Wednesdays), the standing forum where the review group of engineering and security leaders works through the Tuesday pre-read. Each candidate resolves to one of three outcomes:
 - **Major** → the owning team's engineering manager runs the process in Linear (convert to a project with the Major template, complete the 8 steps, record who/when/why in the Authorization issue). The next scan moves it to "in process" and health-checks it.
-- **Minor** → recorded (in-channel and/or via `Minor change`). The next scan stops surfacing it.
+- **Minor** → recorded as the group's decision. The next scan stops surfacing it.
 - **No decision yet** → stays in "awaiting decision," aging, until resolved.
 
-The review channel reports; it does not make Linear changes. The paperwork is done separately by the owning team, Claude-assisted if desired. The durable decision record lives in the Linear Authorization issue, stated as risk-based rationale.
+**Recording decisions:** after each review, the meeting notes (Gemini notes) with the group's calls are posted to #soc2-change-review — the visible, dated record the scan reads to know what's resolved. The durable record is made in Linear by the owning team's engineering manager, or their responsible engineer under the EM's oversight: the authoritative label applied, and for Major changes the rationale stated in the Authorization issue. The scan reports and keeps items visible until that Linear follow-through is done; it never makes Linear changes itself.
+
+Between meetings, an engineering manager may confirm or set a scope label on an assignee's item as needed — a manual judgment call, not an automated step.
 
 ## 8. Roles
 - **Cam Crow** owns the change-management framework and process.
-- **Engineering managers** own execution for their teams — running the major-change process and Linear paperwork.
-- **The review group** (engineering + security leads in #soc2-change-review) decides classifications.
+- **Engineering managers** own execution for their teams — running the major-change process and the Linear paperwork (directly, or via their responsible engineer under their oversight).
+- **The review group** (engineering + security leads) decides classifications at the weekly SOC 2 Change Management Review (Wednesdays); decisions are recorded in the meeting notes posted to #soc2-change-review and made durable in Linear by the owning team.
 - **Fractional CISO (Chris Williams)** advises on audit sufficiency.
 
 ## 9. Operating the control over time
@@ -86,4 +94,5 @@ The review channel reports; it does not make Linear changes. The paperwork is do
 ## Appendix — what changed since the approved v16
 - Emergency changes may be handled as a single Linear issue (Approval + Post-mortem sub-issues), not only a project — proportionate for routine break-glass like overnight data build failures.
 - Added explicit `Minor change` labels (project + issue); no label still defaults to Minor.
-- The AI classification is implemented via Claude Tag reading this repo's prompt (rather than the originally-sketched scheduled research); the daily-post format and decision loop are specified here.
+- The AI classification is implemented via Claude Tag reading this repo's prompt (rather than the originally-sketched scheduled research); the post format and decision loop are specified here.
+- The scan became a two-tier cadence — an exception-based light scan (Mon/Wed/Thu/Fri) plus a comprehensive Tuesday pre-read — feeding a standing weekly review meeting (Wednesdays). The light scan also inspects recently-shipped items to catch changes that shipped without triage.
