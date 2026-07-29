@@ -62,60 +62,44 @@ If NONE are true, post a single-line heartbeat — vary it to reflect the actual
 Keep LIGHT posts short — this is a tripwire, not a digest. Do NOT reproduce the full candidate list, per-team coverage matrix, or 8-step health checks; those belong to the PREREAD. If a leader wants the full picture, it's in the most recent pre-read.
 
 ## PREREAD mode output (Tue) — the weekly pre-read and meeting agenda
-Open with: "SOC 2 Change Management — pre-read for tomorrow's review ({date}). Please read before the meeting." Keep the TOP-LEVEL message lean and scannable; put the long per-item detail in a threaded reply beneath it. Structure maps 1:1 to the meeting agenda.
+This is a DECISION AGENDA, not an inventory. It must be readable in a few minutes and able to drive a 45-minute meeting. Target ONE Slack message; only if it genuinely won't fit, move the two lowest-priority sections (Other candidates, Retroactive list) into a SINGLE threaded reply — never a multi-part post.
 
-Top-level message:
+Open with: "SOC 2 Change Management — pre-read for {date} review. Please read before the meeting." Then ONE line of scope/context — how many designated Majors, and any methodology note if the backlog count jumped (e.g. a fuller re-scan surfacing long-unlabeled work, not new work).
 
-### ⚡ TL;DR (lead with this)
-3–5 bullets a busy leader can read in 15 seconds:
-- The shape: how many major changes are in process, how many awaiting decision (and how many are new this week); a one-line per-team coverage status.
-- What needs a decision tomorrow: name the 1–3 highest-priority items by ID — timing-critical, highest-confidence, stalled past a cycle, or shipped-un-triaged — and what's being asked.
-- A brief, honest, self-aware note on the state of things, specific to this week — never boilerplate.
+Writing rules (enforce these — the failure mode is length):
+- ONE line per item. Reserve 1–3 sentences only for the few items under "Decide" that truly need context.
+- Collapse sibling/cluster tickets into ONE line (e.g. "DEVOP-632/633/634 — Disney AWS subaccount build-out").
+- Do NOT re-describe carried items week to week — a carried item is {ID + link} + short label + age, not a repeated paragraph.
+- List Med/Low candidates as a SINGLE "plus several" line with a few example IDs — never itemize them.
+- No per-item "why it might be Major" essays — state the risk in a clause, not a paragraph.
+- Render every Linear ID as a hyperlink; refer to people by full name; no @-mentions.
 
-### 📊 1. Big picture (factual status, no targets)
-- Major changes completed in the current observation window (7/31–10/31/2026): {X}. (0 before the window opens; show pre-window practice completions separately.)
-- Designated Major, in progress: {Y}. PROJECT-level `Major change` designations only — each such project counts as one — not issue-level labels.
-- Per-team coverage — DevOps, Data, Platform, Vacatia.com, DVC: has the team run a practice major change, and/or one in the window? Attribute each item by Linear team + system.
-- Timing watch: in-progress majors likely to complete outside the current window, or with no due date.
+Sections, in this order:
 
-Close the top-level post with a pointer: "Full detail — candidates, health checks, emergencies, coverage, open questions — in thread. 👇"
+### 🚧 Designated Majors
+One line per designated-Major PROJECT: {name + link} — team · lead · target date · the single most important health fact (which of the 8 steps are done/started vs. stalled; does it land in the window?). Close with a one-line per-team read (who has zero designated Majors, whose are stalled). If none: "No major changes designated yet."
 
-Threaded reply (the detail):
+### ✅ Decide this review
+The items that actually need a group call, most urgent first — aim for 3–5, not a dump. Each: what it is (plain English) · the risk · the ask (classify Major? needs QA before retry? record a retroactive call?).
+PROMINENCE RULE: lead with, and flag 🔴, any in-scope change that shipped-then-reverted, or shipped without classification while touching PII / PCI / production infrastructure / auth — these are the highest-value discussions.
 
-### 🚧 2. In-process major changes (each designated-Major PROJECT). For each:
-- {Project name + link} — plain-English summary of what it does
-- Team · project state · lead · issue count. "started" = IN-PROCESS; backlog/planned/paused = designated but not yet started (say so).
-- Its issues: {Linear IDs + links} — every issue is Major because the project is designated Major.
-- Health check: are all 8 required steps present and progressing? Authorization recorded? Rollback documented? Call out anything missing, stalled, or wrong.
-- Estimated completion + whether it lands inside the current window.
-- If none yet: "No major changes designated yet — see candidates below."
+### 🔎 Other high-confidence candidates
+The remaining 🔴 High candidates not already under "Decide," one line each ({ID + link} · short what-it-is · status). Then ONE line collapsing all Med/Low candidates: "plus several Med/Low — {a few example IDs}."
 
-### 🗳️ 3. Awaiting decision (oldest first)
-- FIRST, a *Retroactive* subsection: any item that shipped un-triaged since the last review (from the recently-shipped lookback) — needs an after-the-fact Minor/Major call recorded and Linear updated. List these ahead of live candidates.
-- Then live candidates. Exclude items already tagged emergency/break-glass (those go in §4, with no "why it might be Major" writeup). For each candidate:
-  - {Linear ID + link} — plain-English summary; gloss component/system names
-  - Project · team · status · current label (if any)
-  - People: created by {name}; assigned to {name or "unassigned"}
-  - Why it might be Major: matched criterion + the concrete change and its plain-language risk
-  - Flagged {N} days ago — call out anything stalled (>5 days)
-  - Confidence: 🔴 high / 🟠 med / 🟡 low
-  - If nothing qualifies: "✅ Nothing awaiting a decision."
+### 🗳️ Retroactive classifications needed
+ONE compact line: the IDs that shipped un-triaged and need an after-the-fact Minor/Major call recorded in Linear, each with a 2–4 word parenthetical only where the risk isn't self-evident.
 
-### 🚨 4. Emergency / break-glass changes (items already tagged emergency). For each:
-These have ALREADY shipped, so no "why it might be Major" writeup — the only open question is after-the-fact sign-off.
-- {Linear ID + link} — plain-English summary of what shipped and why it was an emergency
-- Team · who drove it · when it shipped
-- After-the-fact sign-off status: is retroactive authorization/review recorded? What's outstanding, who owns it?
-- If none: "✅ No emergency changes awaiting sign-off."
+### 🚨 Emergency / break-glass
+One line: any emergency-tagged item + its after-the-fact sign-off status; "✅ none outstanding this week" if clear.
 
-### 🧭 5. Coverage vs. target
-- Completed Major changes in the window against the floor: 1–2 per in-scope team, ~5–6 total across the window. Flag teams at risk. Call out DVC specifically if it has no naturally-shipping in-window change and needs a deliberate production promotion purely for evidence.
+### 🧭 Coverage vs. target
+A few lines: completions vs the floor (~1–2 per in-scope team, ~5–6 total across the window); name only the teams at risk; call out DVC if nothing is naturally shipping.
 
-### ❓ 6. Open process questions
-- Any classification/scoping question or process decision open more than one review cycle. Keep each visible until closed, with how long it's been open.
+### ❓ Open process questions
+One line each: process/scoping decisions open more than one review cycle — topic + how long open.
 
 ## Conventions
-- LIGHT: a single top-level message — either the alert(s) or the one-line heartbeat. PREREAD: a lean top-level post (TL;DR + big picture) with the detail in a threaded reply.
+- LIGHT: a single top-level message — either the alert(s) or the one-line heartbeat. PREREAD: aim for ONE top-level message; if it genuinely won't fit, move only the two lowest-priority sections (Other candidates, Retroactive list) into a single threaded reply — never a multi-part post.
 - Post as a top-level message, never as a reply to someone else's post, so the lead is visible at a glance. Discussion happens in threads.
 - Refer to people by full name in plain text. Do NOT @-mention anyone — let human reviewers tag people in as needed.
 - Render every Linear issue reference as a hyperlink, everywhere it appears: format as [VDC-782](https://linear.app/vacatia/issue/VDC-782), using the full issue URL when available. Keep the bare issue ID as the visible link label so the next run's dedupe can match on the ID text.
