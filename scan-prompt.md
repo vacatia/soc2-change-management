@@ -34,14 +34,16 @@ Check EVERY in-scope item against the criteria regardless of its current label. 
 
 ## Determine state before posting
 1. Query Linear PROJECTS for the `Major change` project label first — this is the AUTHORITATIVE source for what counts as a designated Major change. It is a grouped project label: group "SOC 2 Change Management" (project-label group id `b21e710d-81a1-43f5-bc96-ce86ce0f5f63`), child "Major change" (project-label id `dd6bd0fb-7b4a-4087-afce-46e006db3d8d`). For example:
-   `projects(filter: {labels: {id: {eq: "dd6bd0fb-7b4a-4087-afce-46e006db3d8d"}}}) { nodes { name state url lead { name } issues { nodes { identifier title state { name } team { key } } } } }`
+   `projects(filter: {labels: {id: {eq: "dd6bd0fb-7b4a-4087-afce-46e006db3d8d"}}}) { nodes { name state url lead { name } issues { nodes { identifier title state { name } team { key } parent { identifier title } } } } }`
+   (fetch `parent` on every issue — that is how you group the 8 checklist sub-issues under their parent, see below)
    - EVERY project carrying `Major change` IS a designated Major change. Count each such project as one Major change, and treat ALL issues in it as Major.
+   - **Find the checklist inside the project.** The 8 required steps live as SUB-ISSUES of a single parent issue created from the *SOC 2 Major Change* issue template — not as 8 loose issues in the project. Identify that parent by its sub-issues being the 8 gates (R&D / Scoping, Impact Assessment, Authorization, Communication, Documentation, Pre-prod Testing, Rollback Plan, Post-Implementation Testing); its own title is usually "SOC 2 Major Change" but older ones vary (e.g. "SOC2 Compliance"), so match on the sub-issues, not the title. Health-check the SUB-ISSUES. A `Major change` project with NO such parent issue has no checklist at all — report that as the finding. Transitional allowance: a few projects predate the issue template and still have the 8 steps as loose issues in the project — treat those as the checklist and note that they aren't yet under a parent. Nothing new can arrive in that shape (the project template that produced it was deleted 2026-08-03), so this clause can be dropped once those projects close out.
    - A `Major change` project whose state is "started" is an IN-PROCESS major change (report it in the in-process section). One in backlog/planned/paused is designated Major but not yet started — still report it as designated Major, noting its state.
    - Also check the sibling project labels `Minor change` (id `3251cf57-83ab-4007-9fb3-9b2e0fbc35a6`) and `Emergency change` (id `6b958bab-3bee-444a-bf93-1338064b7b14`) at the PROJECT level, and treat those projects' issues accordingly.
 2. Read this channel's recent history (~30 days) plus Linear labels to establish what's decided. A decision is authoritative — and the item is RESOLVED (drop it from candidates) — when recorded in either of these ways:
    - **In-channel decision**, including the weekly review's meeting notes (the Gemini notes posted to this channel after each Wednesday review) that record the group's Minor/Major calls; and/or
    - **Linear updated** — the owning team's engineering manager, or their engineer under the EM's oversight, has applied the authoritative project/issue label.
-   Treat either signal as resolved. Concretely: group decided Major / carries `Major change` / running the Major template → "in process." Group decided Minor (recorded in the meeting notes or via `Minor change` applied as a group decision) → resolved; drop it. Previously flagged, not yet decided → "awaiting decision"; track days since first flagged.
+   Treat either signal as resolved. Concretely: group decided Major / carries `Major change` / running the *SOC 2 Major Change* checklist → "in process." Group decided Minor (recorded in the meeting notes or via `Minor change` applied as a group decision) → resolved; drop it. Previously flagged, not yet decided → "awaiting decision"; track days since first flagged.
 3. Query Linear for in-scope, active work, excluding inactive states (plus the recently-shipped lookback above).
 
 ## When a shipped item counts as "un-triaged" (the LIGHT tripwire)
@@ -77,7 +79,7 @@ Writing rules (enforce these — the failure mode is length):
 Sections, in this order:
 
 ### 🚧 Designated Majors
-One line per designated-Major PROJECT: {name + link} — team · lead · target date · the single most important health fact (which of the 8 steps are done/started vs. stalled; does it land in the window?). Close with a one-line per-team read (who has zero designated Majors, whose are stalled). If none: "No major changes designated yet."
+One line per designated-Major PROJECT: {name + link} — team · lead · target date · the single most important health fact (which of the 8 steps are done/started vs. stalled; does it land in the window?). Read the steps from the *SOC 2 Major Change* parent issue's sub-issues; if the project has no such parent issue, that IS the health fact — say "no checklist issue yet." Close with a one-line per-team read (who has zero designated Majors, whose are stalled). If none: "No major changes designated yet."
 
 ### ✅ Decide this review
 The items that actually need a group call, most urgent first — aim for 3–5, not a dump. Each: what it is (plain English) · the risk · the ask (classify Major? needs QA before retry? record a retroactive call?).
