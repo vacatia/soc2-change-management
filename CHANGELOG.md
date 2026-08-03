@@ -2,6 +2,13 @@
 
 Tracks changes to the process and the daily-scan prompt. The prompt itself carries no version stamp — git history + the date on each daily post are the source of truth; this log is the human-readable summary.
 
+## 2026-08-03 — Major-change checklist becomes one parent issue with 8 sub-issues
+Adopted by the review group at the 2026-07-29 SOC 2 Change Management Review. Previously the *SOC 2 Major Change* **project** template created the 8 checklist steps as 8 loose issues in the project, where they sat undifferentiated among the team's development issues and nothing pulled them together. They are now the sub-issues of a single *SOC 2 Major Change* parent issue, created from an **issue** template.
+- **`change-management-plan.md`:** §3 reorganized around issue templates (Major + Emergency-issue) with the Emergency project template listed separately; notes that an issue template can be applied at any time, so a project reclassified Major follows the same path as one that starts out Major — the Linear-API workaround for reclassified projects is gone. §4 states the parent/sub-issue structure and standardizes the step titles to title case as used in Linear. §7 spells out the Major follow-through (label the project → apply the issue template → complete the steps → record in the Authorization sub-issue). §10 and the appendix updated.
+- **`scan-prompt.md`:** the 8-step health check now reads the sub-issues of the parent checklist issue rather than loose issues in the project. Identifies the parent by its sub-issues being the 8 gates, not by title (older ones vary, e.g. "SOC2 Compliance"). A `Major change` project with no such parent issue is reported as having no checklist; projects that predate the template and still hold the 8 steps as loose issues are accepted, with a note. The project query now fetches `parent` on each issue.
+- No change to labels: the project-level `Major change` label remains the authoritative designation and the unit that gets counted.
+- **In Linear (2026-08-03):** the *SOC 2 Major Change* issue template was created at workspace level (parent issue + 8 sub-issues), and the *SOC 2 Major Change* project template was deleted so the old shape can no longer be created. The workspace now holds one project template (*SOC 2 Emergency Change (Project)*) and two issue templates (*SOC 2 Major Change*, *SOC 2 Emergency Change (Issue)*).
+
 ## 2026-07-24 — Two-tier scan + weekly review meeting
 Introduces a standing weekly SOC 2 Change Management Review (Wednesdays) as the decision forum, and splits the scan into two tiers to feed it.
 - **`scan-prompt.md`:** split the single daily scan into two modes.
