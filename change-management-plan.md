@@ -22,7 +22,7 @@ Classification is driven by the risk criteria above. Many changes are clearly mi
 ## 3. Linear setup
 **Label group `SOC 2 Change Management`** on projects and issues:
 - Project labels: `Minor change`, `Major change`, `Emergency change`
-- Issue labels: `Minor change`, `Emergency change` — there is deliberately no issue-level `Major change` label. A major change is designated at the project level, so a major change that started life as a single issue becomes a project.
+- Issue labels: `Minor change`, `Major change`, `Emergency change`. A major change is normally designated at the project level, and a standalone major change that started life as a single issue becomes a project. The issue-level `Major change` label covers the other case: a long-running project that is not itself one major change but contains a discrete major change within it — possibly several over its life. Label that issue rather than the project, and associate it with the *SOC 2 Major Change* parent issue covering that change, so it is clear which checklist applies to which change.
 
 **Issue templates:**
 - *SOC 2 Major Change* — one parent issue whose sub-issues are the 8 checklist steps (§4). Applied inside the project that carries the `Major change` label.
@@ -65,7 +65,7 @@ To support the un-triaged tripwire, the scan also inspects recently-shipped (Don
 
 ## 7. The decision loop
 Classifications are decided at the **weekly SOC 2 Change Management Review** (Wednesdays), the standing forum where the review group of engineering and security leaders works through the Tuesday pre-read. Each candidate resolves to one of three outcomes:
-- **Major** → the owning team's engineering manager runs the process in Linear: make sure the change is a project and apply the `Major change` project label, add the *SOC 2 Major Change* issue template to create the parent issue and its 8 sub-issues, complete the steps, and record who/when/why in the Authorization sub-issue. The next scan moves it to "in process" and health-checks it.
+- **Major** → the owning team's engineering manager runs the process in Linear: make sure the change is a project and apply the `Major change` project label, add the *SOC 2 Major Change* issue template to create the parent issue and its 8 sub-issues, complete the steps, and record who/when/why in the Authorization sub-issue. Where the major change is one discrete piece of a longer-running project rather than the whole project, apply the `Major change` label to that issue instead, and associate it with the *SOC 2 Major Change* parent issue covering it. The next scan moves it to "in process" and health-checks it.
 - **Minor** → recorded as the group's decision. The next scan stops surfacing it.
 - **No decision yet** → stays in "awaiting decision," aging, until resolved.
 
