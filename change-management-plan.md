@@ -37,7 +37,7 @@ The 8 steps are the sub-issues of one *SOC 2 Major Change* parent issue in the p
 
 1. **R&D / Scoping** — initial investigation; authorization follows once scope is clear
 2. **Impact Assessment** — scope, affected systems, users, data flows; flag any new PII
-3. **Authorization** — named business approver confirms in writing after R&D, before production deploy. The approver must sit **outside the engineering team making the change** — a product manager or product owner. Engineering review and another engineering team's sign-off do not satisfy this gate; self-approval fails separation of duties.
+3. **Authorization** — a named business approver confirms in writing, after R&D and before production deploy, that the change is needed and that what is being built is the right answer to that need. This is a business and product validation, not a compliance sign-off and not a restatement of the Major classification. The approver must sit **outside the engineering team making the change** — a product manager or business leader. Engineering review and another engineering team's sign-off do not satisfy this gate; self-approval fails separation of duties.
 4. **Communication** — notify stakeholders of the change, timeline, any downtime
 5. **Documentation** — architecture notes, spec, or updated runbook attached
 6. **Pre-prod Testing** — QA sign-off in non-prod before deploy (separate tester preferred; self-testing acceptable for small teams as a documented exception, provided separate-person code review was done)
@@ -69,7 +69,7 @@ Classifications are decided at the **weekly SOC 2 Change Management Review** (We
 - **Minor** → recorded as the group's decision. The next scan stops surfacing it.
 - **No decision yet** → stays in "awaiting decision," aging, until resolved.
 
-**Recording decisions:** after each review, the meeting notes (Gemini notes) with the group's calls are posted to #soc2-change-review — the visible, dated record the scan reads to know what's resolved. The durable record is made in Linear by the owning team's engineering manager, or their responsible engineer under the EM's oversight: the authoritative label applied, and for Major changes the rationale stated in the Authorization sub-issue. The scan reports and keeps items visible until that Linear follow-through is done; it never makes Linear changes itself.
+**Recording decisions:** after each review, the meeting notes (Gemini notes) with the group's calls are posted to #soc2-change-review — the visible, dated record the scan reads to know what's resolved. The owning team's engineering manager, or their responsible engineer under the EM's oversight, then applies the corresponding label in Linear. Note what that label is and is not: it marks the outcome, not the reasoning, and it does not record who decided. The classification decision and its rationale live only in the meeting notes today — closing that gap is an open proposal to record them as decision comments on the affected issues and projects. The Authorization sub-issue is a separate gate: it captures a business approver's validation that a change already classified Major is needed and correctly scoped, and it exists only for changes that reached that classification. The scan reports and keeps items visible until that Linear follow-through is done; it never makes Linear changes itself.
 
 Between meetings, an engineering manager may confirm or set a scope label on an assignee's item as needed — a manual judgment call, not an automated step.
 
