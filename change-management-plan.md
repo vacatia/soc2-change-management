@@ -12,7 +12,7 @@
 - **Snowflake:** dbt code changes are in scope (they flow through pull requests). Non-PR Snowflake changes made directly in the UI (new users, sources) are out of scope.
 
 ## 2. Classification — Minor, Major, Emergency
-Each change is recorded on an **issue**, not a project: a Major (and a checklisted Emergency) on its *SOC 2 Major Change* / *SOC 2 Emergency Change* parent issue, a Minor on the change's own issue. One project may hold a single change record or several.
+Every change — Major, Minor, or Emergency — is recorded on an **issue**, not a project, and all three share one structure: a **SOC 2 Change Parent Issue** that is the change's record, carrying its classification label, title prefix, and decision comment. The classifications differ only in that parent's child issues — a Major's are the 8-step checklist (§4), an Emergency's are Approval + Post-mortem, a Minor's needs none. A project can hold any number of SOC 2 Change Parent Issues.
 - **Minor (default):** pre-approved, no sign-off. No label = Minor; apply `Minor change` to affirmatively mark a reviewed minor change.
 - **Major:** new infrastructure, new PII data flows, access-control changes, new third-party integrations, or significant/architectural scope. Requires a named business approver before production deploy and follows the 8-step checklist (§4).
 - **Emergency:** break-glass only. Named approver before work begins (verbal OK accepted, logged with name + time); post-mortem within 5 business days.
